@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin: auto;
+  max-width: 800px;
+  background-color: rgb(232, 244, 255);
+}
+
+.required::after {
+  content: "*";
+  color: red;
+}
+
+.form-check-input {
+  margin-right: 1rem !important;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 5px rgba(113, 110, 249, 0.396);
+}
+
+.card {
+  transition: all 0.4s ease-in-out;
+}
