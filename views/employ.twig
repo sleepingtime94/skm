@@ -12,7 +12,12 @@
         <div class="card border-0 shadow-sm h-100 mb-4" data-pid="{{ datas.employee_id }}">
             <div class="row g-0">
                 <div class="col-md-4">
+                    {% if datas.employee_image %}
+                    <img src="/assets/img/{{ datas.employee_image }}" class="img-fluid rounded-start-1 rounded-end-0"
+                        alt="Thumbnail">
+                    {% else %}
                     <img src="/assets/img/EMPLOYEE.jpg" class="img-fluid rounded-start-1 rounded-end-0" alt="Thumbnail">
+                    {% endif %}
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">

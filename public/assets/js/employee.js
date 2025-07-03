@@ -14,10 +14,16 @@ $(document).ready(function () {
     $("#employee-list").empty();
 
     pegawai.forEach(function (item) {
+      if (item.employee_image != null) {
+        var image = `/assets/img/${item.employee_image}`;
+      } else {
+        var image = "/assets/img/EMPLOYEE.jpg";
+      }
+
       $("#employee-list").append(`
                 <div class="col-md-4">
                     <div class="card h-100" data-pid="${item.employee_id}">
-                        <img src="/assets/img/EMPLOYEE.jpg" class="card-img-top" alt="Thumbnail">
+                        <img src="${image}" class="card-img-top" alt="Thumbnail">
                         <div class="card-body">
                             <h5 class="card-title">${item.employee_name}</h5>
                             <div class="card-text text-secondary small">${item.employee_about}</div>
