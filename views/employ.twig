@@ -11,19 +11,21 @@
         {% if datas.employee_name %}
         <div class="card border-0 shadow-sm h-100 mb-4" data-pid="{{ datas.employee_id }}">
             <div class="row g-0">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     {% if datas.employee_image %}
-                    <img src="/assets/img/{{ datas.employee_image }}" class="img-fluid rounded-start-1 rounded-end-0"
-                        alt="Thumbnail">
+                    <img src="/assets/img/{{ datas.employee_image }}"
+                        class="img-fluid rounded-start-1 w-100 rounded-end-0" alt="Thumbnail">
                     {% else %}
-                    <img src="/assets/img/EMPLOYEE.jpg" class="img-fluid rounded-start-1 rounded-end-0" alt="Thumbnail">
+                    <img src="/assets/img/EMPLOYEE.jpg" class="img-fluid rounded-start-1 w-100 rounded-end-0"
+                        alt="Thumbnail">
                     {% endif %}
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="card-body">
                         <h5 class="card-title fs-3">{{ datas.employee_name }}</h5>
                         <p class="card-text">{{ datas.employee_about }}</p>
-                        <div class="card-text text-start">
+                        <div class="card-text text-start mt-4">
+                            <p class="text-muted">Bagaimana kualitas pelayanan dari petugas kami?</p>
                             <button class="d-block btn btn-outline-success" data-rate="5"><i
                                     class="bi bi-hand-thumbs-up-fill me-2"></i>Bagus</button>
                             <button class="d-block btn btn-outline-primary my-2" data-rate="3"><i

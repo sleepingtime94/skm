@@ -25,7 +25,7 @@ $(document).ready(function () {
                     <div class="card h-100" data-pid="${item.employee_id}">
                         <img src="${image}" class="card-img-top" alt="Thumbnail">
                         <div class="card-body">
-                            <h5 class="card-title">${item.employee_name}</h5>
+                            <a class="card-title text-decoration-none fw-bold" href="/penilaian-pegawai/${item.employee_id}">${item.employee_name}</a>
                             <div class="card-text text-secondary small">${item.employee_about}</div>
                         </div>
                         <div class="card-footer">
