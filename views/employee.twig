@@ -8,42 +8,9 @@
     </div>
 
     <div class="px-4">
-        <div class="row row-cols-1 row-cols-md-3 g-4" id="employee-list"></div>
+        <div class="row g-3" id="employee-list"></div>
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $.get('/pegawai', function (data) {
-            const pegawai = JSON.parse(data);
-
-            pegawai.forEach(function (item) {
-                $('#employee-list').append(`
-                <div class="col">
-                    <div class="card h-100" data-pid="${item.employee_id}">
-                        <img src="/assets/img/EMPLOYEE.jpg" class="card-img-top" alt="Thumbnail">
-                        <div class="card-body">
-                            <h5 class="card-title">${item.employee_name}</h5>
-                            <div class="card-text text-secondary small">${item.employee_about}</div>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-outline-success" data-rate="5"><i class="bi bi-hand-thumbs-up-fill me-2"></i>Bagus</button>
-                            <button class="btn btn-outline-primary my-2" data-rate="3"><i class="bi bi-hand-thumbs-up me-2"></i>Lumayan</button>
-                            <button class="btn btn-outline-danger" data-rate="1"><i class="bi bi-hand-thumbs-down me-2"></i>Buruk</button>
-                        </div>
-                    </div>
-                </div>
-                `)
-            })
-
-            $("button").click(function () {
-                const pid = $(this).parent().parent().attr("data-pid");
-                const rate = $(this).attr("data-rate");
-
-                alert(`Siiippp! PID: ${pid} Rate: ${rate}`);
-
-            })
-        })
-    })
-</script>
+<script src="/assets/js/employee.js"></script>
 {% endblock %}

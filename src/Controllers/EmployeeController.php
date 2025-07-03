@@ -29,9 +29,9 @@ class EmployeeController
         ], 'employee_id DESC');
 
         if (count($result) > 0) {
-            echo json_encode($result[0]);
+            return json_encode($result[0]);
         } else {
-            echo json_encode(['message' => 'Pegawai tidak ditemukan']);
+            return json_encode(['message' => 'Pegawai tidak ditemukan']);
         }
     }
 }

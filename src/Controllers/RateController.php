@@ -36,4 +36,23 @@ class RateController
             echo json_encode($this->db->select('skm'));
         }
     }
+
+    public function employeeRate()
+    {
+        if (isset($_POST['pid'])) {
+            $this->db->create('rating', [
+                'rate_employee_id' => $_POST['pid'],
+                'rate_value' => $_POST['rate']
+            ]);
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Terimakasih atas penilaian anda, ini akan menjadi bahan evaluasi kami kedepannya.'
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan input.'
+            ]);
+        }
+    }
 }
