@@ -1,5 +1,6 @@
 {
-    "name": "disdukcapil/dukcapil-skm",
+    "name": "sleepingtime94/dukcapil-skm",
+    "description": "Survei Kepuasan Masyarakat Dukcapil",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -14,7 +15,7 @@
     "scripts": {
         "start": [
             "Composer\\Config::disableProcessTimeout",
-            "@php -S 0.0.0.0:8080 -t public"
+            "@php -S 127.0.0.1:8080 -t public"
         ]
     }
 }
