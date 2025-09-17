@@ -7,6 +7,8 @@ $router->setNamespace('App\Controllers');
 
 $router->get('/', 'ViewController@home');
 $router->get('/penilaian-layanan', 'ViewController@quest');
+$router->get('/statistik', 'ViewController@statistic');
+
 $router->get('/penilaian-pegawai', 'ViewController@employee');
 $router->get('/penilaian-pegawai/{employee_id}', 'ViewController@employ');
 $router->set404('ViewController@missing');

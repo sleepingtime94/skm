@@ -55,4 +55,14 @@ class RateController
             ]);
         }
     }
+
+    public function viewRateSKM()
+    {
+        return $this->db->select('skm', '', 'created DESC');
+    }
+
+    public function viewRateEmployee()
+    {
+        return $this->db->select('rating', '', 'rate_created DESC');
+    }
 }

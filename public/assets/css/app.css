@@ -5,9 +5,12 @@
 }
 
 body {
+  background-color: rgb(232, 244, 255);
+}
+
+.content {
   margin: auto;
   max-width: 800px;
-  background-color: rgb(232, 244, 255);
 }
 
 .required::after {

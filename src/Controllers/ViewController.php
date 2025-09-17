@@ -5,12 +5,16 @@ namespace App\Controllers;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use App\Controllers\EmployeeController;
+use App\Controllers\RateController;
+
 
 class ViewController
 {
 
     protected $twig;
     private $employee;
+    private $rate;
+
 
     public function __construct()
     {
@@ -18,6 +22,7 @@ class ViewController
         $this->twig = new Environment($loader);
         $this->twig->addGlobal('session', $_SESSION);
         $this->employee = new EmployeeController();
+        $this->rate = new RateController();
     }
 
     public function render($view, $data = [])
@@ -44,6 +49,13 @@ class ViewController
     {
         $datas = json_decode($this->employee->find($employee_id), true);
         $this->render('employ.twig', ['datas' => $datas]);
+    }
+
+    public function statistic()
+    {
+        $skms = $this->rate->viewRateSKM();
+        $pgws = $this->rate->viewRateEmployee();
+        $this->render('statistic.twig', ['skms' => $skms, 'pgws' => $pgws]);
     }
 
     public function missing()
