@@ -5,8 +5,8 @@ use Bramus\Router\Router;
 $router = new Router();
 $router->setNamespace('App\Controllers');
 
-$router->get('/', 'ViewController@home');
-$router->get('/penilaian-layanan', 'ViewController@quest');
+$router->get('/', 'ViewController@quest');
+// $router->get('/penilaian-layanan', 'ViewController@quest');
 $router->get('/statistik', 'ViewController@statistic');
 
 $router->get('/penilaian-pegawai', 'ViewController@employee');
