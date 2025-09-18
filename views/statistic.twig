@@ -8,8 +8,8 @@
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
                 type="button" role="tab" aria-controls="nav-home" aria-selected="true">Penilaian Layanan</button>
-            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Penilaian Pegawai</button>
+            {# <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Penilaian Pegawai</button> #}
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -20,6 +20,7 @@
                         <tr class="align-middle">
                             <th scope="col">Tgl.</th>
                             <th scope="col">Nama</th>
+                            <th scope="col">Kontak</th>
                             <th scope="col">Umur</th>
                             <th scope="col">Pendidikan</th>
                             <th scope="col">Pekerjaan</th>
@@ -37,6 +38,7 @@
                         <tr>
                             <td class="small">{{ data.created }}</td>
                             <td>{{ data.name }}</td>
+                            <td>{{ data.contact }}</td>
                             <td>{{ data.age }}</td>
                             <td>{{ data.study }}</td>
                             <td>{{ data.job }}</td>
@@ -53,7 +55,7 @@
                 </table>
             </div>
         </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        {# <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="table-responsive">
                 <table class="table table-bordered small">
                     <thead class="table-primary">
@@ -74,7 +76,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> #}
     </div>
 </div>
 {% endblock %}
