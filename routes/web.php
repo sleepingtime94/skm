@@ -5,18 +5,19 @@ use Bramus\Router\Router;
 $router = new Router();
 $router->setNamespace('App\Controllers');
 
-$router->get('/', 'ViewController@quest');
-// $router->get('/penilaian-layanan', 'ViewController@quest');
+$router->get('/', 'ViewController@home');
+$router->get('/survei-kepuasan-masyarakat', 'ViewController@questMain');
+$router->get('/survei-pembangunan-zi', 'ViewController@questSecond');
 $router->get('/statistik', 'ViewController@statistic');
 
 $router->get('/penilaian-pegawai', 'ViewController@employeeMain');
 $router->get('/penilaian-pegawai/{employee_id}', 'ViewController@employeeDetail');
-$router->set404('ViewController@missing');
 
-$router->post('/survey/submit', 'RateController@submitRate');
 $router->get('/pegawai', 'EmployeeController@store');
 $router->get('/pegawai/{employee_id}', 'EmployeeController@find');
 
+$router->post('/submit/quest/{category}', 'RateController@submitQuest');
 $router->post('/rating', 'RateController@employeeRate');
 
+$router->set404('ViewController@missing');
 $router->run();

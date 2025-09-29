@@ -3,6 +3,8 @@ $(document).ready(function () {
     event.preventDefault();
 
     let formDataArray = $(this).serializeArray();
+    let category = $(this).data("category");
+
     let params = {};
 
     formDataArray.forEach((item) => {
@@ -26,7 +28,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-      url: "/survey/submit",
+      url: "/submit/quest/" + category,
       type: "POST",
       data: JSON.stringify(dataToSend),
       contentType: "application/json",
@@ -39,7 +41,7 @@ $(document).ready(function () {
           allowOutsideClick: false,
         })
           .then(() => {
-            location.reload();
+            location.replace("/");
           })
           .catch((error) => console.error(error));
       },

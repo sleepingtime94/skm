@@ -13,13 +13,30 @@ class RateController
         $this->db = new MySQL();
     }
 
-    public function submitRate()
+    public function submitQuest($category)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
+        if (!in_array($category, ['skm', 'zi'])) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Kategori tidak valid.'
+            ]);
+            return;
+        }
+
+        switch ($category) {
+            case 'skm':
+                $tableName = 'survey_skm';
+                break;
+            case 'zi':
+                $tableName = 'survey_zi';
+                break;
+        }
+
         if (isset($data['type']) && $data['type'] == 'create') {
             if (isset($data['params'])) {
-                $this->db->create('survey_skm', $data['params']);
+                $this->db->create($tableName, $data['params']);
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Terimakasih atas penilaian anda, ini akan menjadi bahan evaluasi kami kedepannya.'
@@ -33,7 +50,7 @@ class RateController
         }
 
         if (isset($data['type']) && $data['type'] == 'select') {
-            echo json_encode($this->db->select('survey_skm'));
+            echo json_encode($this->db->select($tableName));
         }
     }
 

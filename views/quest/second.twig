@@ -3,12 +3,12 @@
 <div class="content">
     <div class="container py-5">
         <div class="text-center mb-5">
-            <h2 class="display-4 fw-bold text-primary mb-3">Penilaian Layanan</h2>
+            <h2 class="display-4 fw-bold text-primary mb-3">Survei Hasil Pembangunan ZI</h2>
             <p class="lead text-muted">Silahkan isi kuesioner berikut untuk memberikan penilaian pelayanan kami.</p>
             <div class="border-bottom border-3 w-25 mx-auto my-4"></div>
         </div>
 
-        <form id="quest">
+        <form id="quest" data-category="zi">
             <div class="mb-3 border rounded-3 bg-white">
                 <div class="mx-2 p-4 border-bottom">
                     <div class="fw-bold mb-3 required">Jenis Kelamin</div>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="mx-2 p-4 border-bottom">
-                    <div class="fw-bold mb-3 required">Email / Nomor Telepon / WhatsApp</div>
+                    <div class="fw-bold mb-3 required">No. Telepon/HP</div>
                     <div>
                         <input type="text" class="form-control form-control-lg w-75" name="contact" autocomplete="off"
                             required>
@@ -164,6 +164,12 @@
                         <input class="form-check-input" type="checkbox" name="product[]" value="AKTA PERKAWINAN">
                         <label class="form-check-label">
                             AKTA PERKAWINAN
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTIVASI IKD">
+                        <label class="form-check-label">
+                            AKTIVASI IKD
                         </label>
                     </div>
                     <div class="form-check mb-2">

@@ -35,10 +35,16 @@ class ViewController
         $this->render('home.twig');
     }
 
-    public function quest()
+    public function questMain()
     {
         $this->render('quest/main.twig');
     }
+
+    public function questSecond()
+    {
+        $this->render('quest/second.twig');
+    }
+
 
     public function employeeMain()
     {
