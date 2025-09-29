@@ -1,0 +1,438 @@
+{% extends "layout.twig" %}
+{% block content %}
+<div class="content">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold text-primary mb-3">Survei Kepuasan Masyarakat</h2>
+            <p class="lead text-muted">Silahkan isi kuesioner berikut untuk memberikan penilaian pelayanan kami.</p>
+            <div class="border-bottom border-3 w-25 mx-auto my-4"></div>
+        </div>
+
+        <form id="quest">
+            <div class="mb-3 border rounded-3 bg-white">
+                <div class="mx-2 p-4 border-bottom">
+                    <div class="fw-bold mb-3 required">Jenis Kelamin</div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="gender" value="1" checked>
+                        <label class="form-check-label">
+                            Laki-laki
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" value="2">
+                        <label class="form-check-label">
+                            Perempuan
+                        </label>
+                    </div>
+                </div>
+                <div class="mx-2 p-4 border-bottom">
+                    <div class="fw-bold mb-3 required">Umur</div>
+                    <input type="number" class="form-control form-control-lg w-25" name="age" autocomplete="off"
+                        required>
+                </div>
+                <div class="mx-2 p-4 border-bottom">
+                    <div class="fw-bold mb-3 required">Pendidikan</div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="study" value="SD">
+                        <label class="form-check-label">
+                            SD
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="study" value="SMP">
+                        <label class="form-check-label">
+                            SMP
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="study" value="SMA" checked>
+                        <label class="form-check-label">
+                            SMA
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="study" value="S1">
+                        <label class="form-check-label">
+                            S1
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="study" value="S2">
+                        <label class="form-check-label">
+                            S2
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="study" value="S3">
+                        <label class="form-check-label">
+                            S3
+                        </label>
+                    </div>
+                </div>
+                <div class="mx-2 p-4 border-bottom">
+                    <div class="fw-bold mb-3 required">Pekerjaan</div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="job" value="PNS">
+                        <label class="form-check-label">
+                            PNS
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="job" value="TNI">
+                        <label class="form-check-label">
+                            TNI
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="job" value="POLRI">
+                        <label class="form-check-label">
+                            POLRI
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="job" value="SWASTA">
+                        <label class="form-check-label">
+                            SWASTA
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="job" value="WIRAUSAHA">
+                        <label class="form-check-label">
+                            WIRAUSAHA
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="job" value="LAINNYA" checked>
+                        <label class="form-check-label">
+                            LAINNYA
+                        </label>
+                    </div>
+                </div>
+                <div class="mx-2 p-4 border-bottom">
+                    <div class="fw-bold mb-3 required">Jenis Pelayanan yang diterima</div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="KTP">
+                        <label class="form-check-label">
+                            KTP
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="KIA">
+                        <label class="form-check-label">
+                            KIA
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="KARTU KELUARGA">
+                        <label class="form-check-label">
+                            KARTU KELUARGA
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="SURAT PINDAH">
+                        <label class="form-check-label">
+                            SURAT PINDAH
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA KELAHIRAN">
+                        <label class="form-check-label">
+                            AKTA KELAHIRAN
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA KEMATIAN">
+                        <label class="form-check-label">
+                            AKTA KEMATIAN
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA PERKAWINAN">
+                        <label class="form-check-label">
+                            AKTA PERKAWINAN
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="LAINNYA">
+                        <label class="form-check-label">
+                            LAINNYA
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 fw-bold fs-4  bg-secondary-subtle border text-center">
+                PENDAPAT RESPONDEN TERHADAP PELAYANAN
+            </div>
+            <div class="my-2">
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        1. Bagaimana pendapat saudara tentang kesesuaian persyaratan pelayanan dengan jenis
+                        pelayanannya?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_1" value="1">
+                        <label class="form-check-label">
+                            a. Tidak Sesuai
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_1" value="2">
+                        <label class="form-check-label">
+                            b. Kurang Sesuai
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_1" value="3" checked>
+                        <label class="form-check-label">
+                            c. Sesuai
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_1" value="4">
+                        <label class="form-check-label">
+                            d. Sangat Sesuai
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        2. Bagaimana pemahaman saudara tentang kemudahan prosedur pelayanan di unit ini?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_2" value="1">
+                        <label class="form-check-label">
+                            a. Tidak Mudah
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_2" value="2">
+                        <label class="form-check-label">
+                            b. Kurang Mudah
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_2" value="3" checked>
+                        <label class="form-check-label">
+                            c. Mudah
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_2" value="4">
+                        <label class="form-check-label">
+                            d. Sangat Mudah
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        3. Bagaimana pendapat saudara tentang kecepatan waktu dalam memberikan pelayanan?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_3" value="1">
+                        <label class="form-check-label">
+                            a. Tidak Cepat
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_3" value="2">
+                        <label class="form-check-label">
+                            b. Kurang Cepat
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_3" value="3" checked>
+                        <label class="form-check-label">
+                            c. Cepat
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_3" value="4">
+                        <label class="form-check-label">
+                            d. Sangat Cepat
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        4. Bagaimana pendapat saudara tentang kewajaran biaya/tarif?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_4" value="1">
+                        <label class="form-check-label">
+                            a. Sangat Mahal
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_4" value="2">
+                        <label class="form-check-label">
+                            b. Cukup Mahal
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_4" value="3">
+                        <label class="form-check-label">
+                            c. Murah
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_4" value="4" checked>
+                        <label class="form-check-label">
+                            d. Gratis
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        5. Bagaimana pendapat saudara tentang kesesuaian produk pelayanan antara yang tercantum dalam
+                        standar pelayanan dengan hasil yang diberikan?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_5" value="1">
+                        <label class="form-check-label">
+                            a. Tidak Sesuai
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_5" value="2">
+                        <label class="form-check-label">
+                            b. Kurang Sesuai
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_5" value="3" checked>
+                        <label class="form-check-label">
+                            c. Sesuai
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_5" value="4">
+                        <label class="form-check-label">
+                            d. Sangat Sesuai
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        6. Bagaimana pendapat saudara tentang kompetensi kemampuan petugas dalam pelayanan?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_6" value="1">
+                        <label class="form-check-label">
+                            a. Tidak Kompeten
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_6" value="2">
+                        <label class="form-check-label">
+                            b. Kurang Kompeten
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_6" value="3" checked>
+                        <label class="form-check-label">
+                            c. Kompeten
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_6" value="4">
+                        <label class="form-check-label">
+                            d. Sangat Kompeten
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        7. Bagaimana pendapat saudara perilaku petugas dalam pelayanan terkait kesopanan dan keramahan?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_7" value="1">
+                        <label class="form-check-label">
+                            a. Tidak Sopan & Ramah
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_7" value="2">
+                        <label class="form-check-label">
+                            b. Kurang Sopan & Ramah
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_7" value="3" checked>
+                        <label class="form-check-label">
+                            c. Sopan & Ramah
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_7" value="4">
+                        <label class="form-check-label">
+                            d. Sangat Sopan & Ramah
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        8. Bagaimana pendapat saudara tentang kualitas sarana dan prasarana?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_8" value="1">
+                        <label class="form-check-label">
+                            a. Buruk
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_8" value="2">
+                        <label class="form-check-label">
+                            b. Cukup
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_8" value="3" checked>
+                        <label class="form-check-label">
+                            c. Baik
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_8" value="4">
+                        <label class="form-check-label">
+                            d. Sangat Baik
+                        </label>
+                    </div>
+                </div>
+                <div class="card p-4 my-2">
+                    <div class="mb-3 required">
+                        9. Bagaimana pendapat saudara tentang penanganan pengaduan pengguna layanan?
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_9" value="1">
+                        <label class="form-check-label">
+                            a. Tidak Ada
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_9" value="2">
+                        <label class="form-check-label">
+                            b. Ada tetapi tidak berfungsi
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_9" value="3">
+                        <label class="form-check-label">
+                            c. Berfungsi kurang maksimal
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="quest_9" value="4" checked>
+                        <label class="form-check-label">
+                            d. Dikelola dengan baik
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 mb-5">
+                <button type="submit" class="btn btn-lg btn-primary w-100 fw-bold">Kirim Penilaian</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/assets/js/app.js"></script>
+{% endblock %}

@@ -37,18 +37,18 @@ class ViewController
 
     public function quest()
     {
-        $this->render('quest.twig');
+        $this->render('quest/main.twig');
     }
 
-    public function employee()
+    public function employeeMain()
     {
-        $this->render('employee.twig');
+        $this->render('employee/main.twig');
     }
 
-    public function employ($employee_id)
+    public function employeeDetail($employee_id)
     {
         $datas = json_decode($this->employee->find($employee_id), true);
-        $this->render('employ.twig', ['datas' => $datas]);
+        $this->render('employee/detail.twig', ['datas' => $datas]);
     }
 
     public function statistic()

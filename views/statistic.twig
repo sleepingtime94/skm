@@ -15,40 +15,34 @@
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <div class="table-responsive">
-                <table class="table table-bordered small">
+                <table class="table table-bordered small text-center">
                     <thead class="table-primary">
                         <tr class="align-middle">
-                            <th scope="col">Tgl.</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Kontak</th>
+                            <th scope="col">Tanggal</th>
                             <th scope="col">Umur</th>
                             <th scope="col">Pendidikan</th>
                             <th scope="col">Pekerjaan</th>
                             <th scope="col">Layanan</th>
-                            {% for i in range(1, 13) %}
+                            {% for i in range(1, 9) %}
                             <th scope="col" class="text-center">
                                 Kuis {{ i }}
                             </th>
                             {% endfor %}
-                            <th scope="col">Catatan</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         {% for data in skms %}
                         <tr>
-                            <td class="small">{{ data.created }}</td>
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.contact }}</td>
+                            <td class="small">{{ data.created_at }}</td>
                             <td>{{ data.age }}</td>
                             <td>{{ data.study }}</td>
                             <td>{{ data.job }}</td>
                             <td>{{ data.product }}</td>
-                            {% for i in range(1, 13) %}
-                            <td {% if i>= 9 %}class="bg-warning-subtle"{% endif %}>
+                            {% for i in range(1, 9) %}
+                            <td>
                                 {{ data['quest_' ~ i] }}
                             </td>
                             {% endfor %}
-                            <td class="small">{{ data.suggest }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

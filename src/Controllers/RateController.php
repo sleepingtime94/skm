@@ -19,7 +19,7 @@ class RateController
 
         if (isset($data['type']) && $data['type'] == 'create') {
             if (isset($data['params'])) {
-                $this->db->create('skm', $data['params']);
+                $this->db->create('survey_skm', $data['params']);
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Terimakasih atas penilaian anda, ini akan menjadi bahan evaluasi kami kedepannya.'
@@ -33,7 +33,7 @@ class RateController
         }
 
         if (isset($data['type']) && $data['type'] == 'select') {
-            echo json_encode($this->db->select('skm'));
+            echo json_encode($this->db->select('survey_skm'));
         }
     }
 
@@ -58,7 +58,7 @@ class RateController
 
     public function viewRateSKM()
     {
-        return $this->db->select('skm', '', 'created DESC');
+        return $this->db->select('survey_skm', '', 'created_at DESC');
     }
 
     public function viewRateEmployee()

@@ -9,8 +9,8 @@ $router->get('/', 'ViewController@quest');
 // $router->get('/penilaian-layanan', 'ViewController@quest');
 $router->get('/statistik', 'ViewController@statistic');
 
-$router->get('/penilaian-pegawai', 'ViewController@employee');
-$router->get('/penilaian-pegawai/{employee_id}', 'ViewController@employ');
+$router->get('/penilaian-pegawai', 'ViewController@employeeMain');
+$router->get('/penilaian-pegawai/{employee_id}', 'ViewController@employeeDetail');
 $router->set404('ViewController@missing');
 
 $router->post('/survey/submit', 'RateController@submitRate');
