@@ -19,6 +19,8 @@
                     <thead class="table-primary">
                         <tr class="align-middle">
                             <th scope="col">Tanggal</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">No. Telepon</th>
                             <th scope="col">Umur</th>
                             <th scope="col">Pendidikan</th>
                             <th scope="col">Pekerjaan</th>
@@ -34,6 +36,8 @@
                         {% for data in skms %}
                         <tr>
                             <td class="small">{{ data.created_at }}</td>
+                            <td>{{ data.name }}</td>
+                            <td>{{ data.phone }}</td>
                             <td>{{ data.age }}</td>
                             <td>{{ data.study }}</td>
                             <td>{{ data.job }}</td>
