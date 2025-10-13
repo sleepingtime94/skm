@@ -11,6 +11,14 @@
         <form id="quest" data-category="skm">
             <div class="mb-3 border rounded-3 bg-white">
                 <div class="mx-2 p-4 border-bottom">
+                    <div class="fw-bold mb-3 required">Nama</div>
+                    <input type="text" class="form-control form-control-lg" name="name" autocomplete="off" required>
+                </div>
+                <div class="mx-2 p-4 border-bottom">
+                    <div class="fw-bold mb-3 required">No. Telepon</div>
+                    <input type="text" class="form-control form-control-lg" name="phone" autocomplete="off" required>
+                </div>
+                <div class="mx-2 p-4 border-bottom">
                     <div class="fw-bold mb-3 required">Jenis Kelamin</div>
                     <div class="form-check mb-2">
                         <input class="form-check-input" type="radio" name="gender" value="1" checked>
@@ -111,49 +119,52 @@
                 <div class="mx-2 p-4 border-bottom">
                     <div class="fw-bold mb-3 required">Jenis Pelayanan yang diterima</div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="KTP">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="KTP" required>
                         <label class="form-check-label">
                             KTP
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="KIA">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="KIA" required>
                         <label class="form-check-label">
                             KIA
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="KARTU KELUARGA">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="KARTU KELUARGA"
+                            required>
                         <label class="form-check-label">
                             KARTU KELUARGA
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="SURAT PINDAH">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="SURAT PINDAH" required>
                         <label class="form-check-label">
                             SURAT PINDAH
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA KELAHIRAN">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA KELAHIRAN"
+                            required>
                         <label class="form-check-label">
                             AKTA KELAHIRAN
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA KEMATIAN">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA KEMATIAN" required>
                         <label class="form-check-label">
                             AKTA KEMATIAN
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA PERKAWINAN">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="AKTA PERKAWINAN"
+                            required>
                         <label class="form-check-label">
                             AKTA PERKAWINAN
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="product[]" value="LAINNYA">
+                        <input class="form-check-input" type="checkbox" name="product[]" value="LAINNYA" required>
                         <label class="form-check-label">
                             LAINNYA
                         </label>
