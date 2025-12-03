@@ -82,4 +82,9 @@ class RateController
     {
         return $this->db->select('rating', '', 'rate_created DESC');
     }
+
+    public function viewRateZI()
+    {
+        return $this->db->select('survey_zi', '', 'created DESC');
+    }
 }

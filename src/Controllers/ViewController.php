@@ -60,8 +60,13 @@ class ViewController
     public function statistic()
     {
         $skms = $this->rate->viewRateSKM();
-        $pgws = $this->rate->viewRateEmployee();
-        $this->render('statistic.twig', ['skms' => $skms, 'pgws' => $pgws]);
+        $zis = $this->rate->viewRateZI();
+        $this->render('statistic.twig', ['skms' => $skms, 'zis' => $zis]);
+    }
+
+    public function login()
+    {
+        $this->render('login.twig');
     }
 
     public function missing()
