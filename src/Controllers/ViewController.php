@@ -7,18 +7,15 @@ use Twig\Loader\FilesystemLoader;
 use App\Controllers\EmployeeController;
 use App\Controllers\RateController;
 
-
 class ViewController
 {
-
     protected $twig;
     private $employee;
     private $rate;
 
-
     public function __construct()
     {
-        $loader = new FilesystemLoader(dirname(__DIR__, 2) . '/views');
+        $loader = new FilesystemLoader(dirname(__DIR__, 1) . '/Views');
         $this->twig = new Environment($loader);
         $this->twig->addGlobal('session', $_SESSION);
         $this->employee = new EmployeeController();
@@ -45,7 +42,6 @@ class ViewController
         $this->render('quest/second.twig');
     }
 
-
     public function employeeMain()
     {
         $this->render('employee/main.twig');
@@ -57,11 +53,28 @@ class ViewController
         $this->render('employee/detail.twig', ['datas' => $datas]);
     }
 
-    public function statistic()
+
+    public function statistic($month = null, $year = null)
     {
-        $skms = $this->rate->viewRateSKM();
-        $zis = $this->rate->viewRateZI();
-        $this->render('statistic.twig', ['skms' => $skms, 'zis' => $zis]);
+        // Ambil dari query string jika tidak lewat route
+        if ($month === null) {
+            $month = $_GET['month'] ?? date('m');   // DEFAULT: bulan sekarang
+        }
+
+        if ($year === null) {
+            $year = $_GET['year'] ?? date('Y');     // DEFAULT: tahun sekarang
+        }
+
+        // Ambil data sesuai month & year
+        $skms = $this->rate->viewRateSKM($month, $year);
+        $zis  = $this->rate->viewRateZI($month, $year);
+
+        $this->render('statistic.twig', [
+            'skms'  => $skms,
+            'zis'   => $zis,
+            'month' => $month,
+            'year'  => $year,
+        ]);
     }
 
     public function login()

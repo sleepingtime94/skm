@@ -73,9 +73,15 @@ class RateController
         }
     }
 
-    public function viewRateSKM()
+    public function viewRateSKM($month = null, $year = null)
     {
-        return $this->db->select('survey_skm', '', 'created_at DESC');
+        $pattern = ($month === null || $year === null)
+            ? date('Y-m') . '%'
+            : sprintf('%04d-%02d', $year, $month) . '%';
+
+        return $this->db->select('survey_skm', [
+            'created_at' => ['LIKE', $pattern]
+        ], 'created_at DESC');
     }
 
     public function viewRateEmployee()
@@ -83,8 +89,14 @@ class RateController
         return $this->db->select('rating', '', 'rate_created DESC');
     }
 
-    public function viewRateZI()
+    public function viewRateZI($month = null, $year = null)
     {
-        return $this->db->select('survey_zi', '', 'created DESC');
+        $pattern = ($month === null || $year === null)
+            ? date('Y-m') . '%'
+            : sprintf('%04d-%02d', $year, $month) . '%';
+
+        return $this->db->select('survey_zi', [
+            'created_at' => ['LIKE', $pattern]
+        ], 'created_at DESC');
     }
 }

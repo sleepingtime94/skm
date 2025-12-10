@@ -1,22 +1,50 @@
 {% extends 'layout.twig' %}
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid bg-white">
     <div class="p-3 fs-3 fw-bold">
         Statistik
     </div>
-    <nav class="bg-white">
+    <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-layanan-tab" data-bs-toggle="tab" data-bs-target="#nav-layanan"
                 type="button" role="tab" aria-controls="nav-layanan" aria-selected="true">Penilaian Layanan</button>
-            <button class="nav-link" id="nav-zi-tab" data-bs-toggle="tab" data-bs-target="#nav-zi"
-                type="button" role="tab" aria-controls="nav-zi" aria-selected="false">Survei Zona
+            <button class="nav-link" id="nav-zi-tab" data-bs-toggle="tab" data-bs-target="#nav-zi" type="button"
+                role="tab" aria-controls="nav-zi" aria-selected="false">Survei Zona
                 Integritas</button>
         </div>
     </nav>
+    <div class="row g-2 px-3 mb-3">
+        <form method="GET" action="" class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <label for="month" class="form-label small fw-semibold">Bulan</label>
+                <select class="form-select form-select-sm" id="month" name="month">
+                    {% for i in 1..12 %}
+                    <option value="{{ i }}" {{ i == ('now'|date('n')) ? 'selected' : '' }}>
+                        {{ date('2025-' ~ i ~ '-01')|date('F') }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="year" class="form-label small fw-semibold">Tahun</label>
+                <select class="form-select form-select-sm" id="year" name="year">
+                    {% for year in range(2025, date()|date('Y')) %}
+                    <option value="{{ year }}" {{ year == ('now'|date('Y')) ? 'selected' : '' }}>
+                        {{ year }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                <a href="/statistik" class="btn btn-secondary btn-sm">Reset</a>
+            </div>
+        </form>
+    </div>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-layanan" role="tabpanel" aria-labelledby="nav-layanan-tab">
             <div class="table-responsive">
-                <table class="table table-bordered small">
+                <table class="table table-bordered table-hover small">
                     <thead class="table-primary">
                         <tr class="align-middle">
                             <th scope="col">Tgl.</th>
@@ -56,7 +84,7 @@
         </div>
         <div class="tab-pane fade" id="nav-zi" role="tabpanel" aria-labelledby="nav-zi-tab">
             <div class="table-responsive">
-                <table class="table table-bordered small">
+                <table class="table table-bordered table-hover small">
                     <thead class="table-primary">
                         <tr class="align-middle">
                             <th scope="col">Tgl.</th>
@@ -85,7 +113,7 @@
                     <tbody>
                         {% for data in zis %}
                         <tr>
-                            <td class="small">{{ data.created }}</td>
+                            <td class="small">{{ data.created_at }}</td>
                             <td>{{ data.name }}</td>
                             <td>{{ data.contact }}</td>
                             <td>{{ data.age }}</td>
