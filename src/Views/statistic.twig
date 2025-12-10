@@ -19,7 +19,7 @@
                 <label for="month" class="form-label small fw-semibold">Bulan</label>
                 <select class="form-select form-select-sm" id="month" name="month">
                     {% for i in 1..12 %}
-                    <option value="{{ i }}" {{ i == ('now'|date('n')) ? 'selected' : '' }}>
+                    <option value="{{ i }}" {{ i == (month ?? ('now'|date('n'))) ? 'selected' : '' }}>
                         {{ date('2025-' ~ i ~ '-01')|date('F') }}
                     </option>
                     {% endfor %}
@@ -29,7 +29,7 @@
                 <label for="year" class="form-label small fw-semibold">Tahun</label>
                 <select class="form-select form-select-sm" id="year" name="year">
                     {% for year in range(2025, date()|date('Y')) %}
-                    <option value="{{ year }}" {{ year == ('now'|date('Y')) ? 'selected' : '' }}>
+                    <option value="{{ year }}" {{ year == (year ?? ('now'|date('Y'))) ? 'selected' : '' }}>
                         {{ year }}
                     </option>
                     {% endfor %}
