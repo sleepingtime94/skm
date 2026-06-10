@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Utility\MySQL;
+use App\Utility\Security;
 
 class RateController
 {
@@ -15,15 +16,26 @@ class RateController
 
     public function submitQuest($category)
     {
+        // Rate limiting: maks 5 submission per 5 menit
+        Security::rateLimit('survey_' . $category, 5, 300);
+
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (!in_array($category, ['skm', 'zi'])) {
             echo json_encode([
-                'status' => 'error',
+                'status'  => 'error',
                 'message' => 'Kategori tidak valid.'
             ]);
             return;
         }
+
+        // Whitelist field yang diizinkan per kategori
+        $allowedFields = [
+            'skm' => ['nama','kontak','umur','pendidikan','pekerjaan','layanan',
+                      'q1','q2','q3','q4','q5','q6','q7','q8','q9','saran'],
+            'zi'  => ['nama','kontak','umur','pendidikan','pekerjaan','layanan','saran',
+                      'q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11','q12','q13'],
+        ];
 
         switch ($category) {
             case 'skm':
@@ -35,15 +47,26 @@ class RateController
         }
 
         if (isset($data['type']) && $data['type'] == 'create') {
-            if (isset($data['params'])) {
-                $this->db->create($tableName, $data['params']);
+            if (isset($data['params']) && is_array($data['params'])) {
+                // Terapkan whitelist — buang field yang tidak diizinkan
+                $safeParams = array_intersect_key(
+                    $data['params'],
+                    array_flip($allowedFields[$category])
+                );
+
+                if (empty($safeParams)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Parameter tidak valid.']);
+                    return;
+                }
+
+                $this->db->create($tableName, $safeParams);
                 echo json_encode([
-                    'status' => 'success',
+                    'status'  => 'success',
                     'message' => 'Terimakasih atas penilaian anda, ini akan menjadi bahan evaluasi kami kedepannya.'
                 ]);
             } else {
                 echo json_encode([
-                    'status' => 'error',
+                    'status'  => 'error',
                     'message' => 'Terjadi kesalahan input.'
                 ]);
             }
@@ -56,21 +79,30 @@ class RateController
 
     public function employeeRate()
     {
-        if (isset($_POST['pid'])) {
-            $this->db->create('rating', [
-                'rate_employee_id' => $_POST['pid'],
-                'rate_value' => $_POST['rate']
-            ]);
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Terimakasih atas penilaian anda, ini akan menjadi bahan evaluasi kami kedepannya.'
-            ]);
-        } else {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan input.'
-            ]);
+        // Rate limiting: maks 10 penilaian per 10 menit
+        Security::rateLimit('employee_rate', 10, 600);
+
+        $pid  = filter_var($_POST['pid']  ?? null, FILTER_VALIDATE_INT);
+        $rate = (int) ($_POST['rate'] ?? 0);
+
+        if (!$pid || $pid <= 0) {
+            echo json_encode(['status' => 'error', 'message' => 'ID pegawai tidak valid.']);
+            return;
         }
+
+        if (!in_array($rate, [1, 3, 5])) {
+            echo json_encode(['status' => 'error', 'message' => 'Nilai penilaian tidak valid. Gunakan 1, 3, atau 5.']);
+            return;
+        }
+
+        $this->db->create('rating', [
+            'rate_employee_id' => $pid,
+            'rate_value'       => $rate,
+        ]);
+        echo json_encode([
+            'status'  => 'success',
+            'message' => 'Terimakasih atas penilaian anda, ini akan menjadi bahan evaluasi kami kedepannya.'
+        ]);
     }
 
     public function viewRateSKM($month = null, $year = null)

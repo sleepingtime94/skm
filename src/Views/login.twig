@@ -8,6 +8,7 @@
             </div>
             <div class="card-body">
                 <form action="/login" method="POST">
+                    <input type="hidden" name="_csrf" value="{{ session.csrf_token }}">
                     <div class="form-group mb-2">
                         <label class="form-label" for="password">Masukkan password:</label>
                         <input type="password" class="form-control" id="password" name="password" required>

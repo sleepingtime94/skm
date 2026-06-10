@@ -27,7 +27,9 @@ class MySQL
             $this->conn = new PDO($dsn, $username, $password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            die('Connection Failed: ' . $e->getMessage());
+            error_log('[MySQL] Connection Failed: ' . $e->getMessage());
+            http_response_code(500);
+            die(json_encode(['status' => 'error', 'message' => 'Terjadi kesalahan server. Silakan coba lagi nanti.']));
         }
     }
 
@@ -84,11 +86,15 @@ class MySQL
             }
 
             if ($orderBy) {
+                // Izinkan hanya karakter aman: huruf, angka, underscore, spasi, koma
+                if (!preg_match('/^[\w\s,]+$/i', $orderBy)) {
+                    throw new \InvalidArgumentException('Klausa ORDER BY mengandung karakter tidak valid.');
+                }
                 $sql .= " ORDER BY $orderBy";
             }
 
-            if ($limit) {
-                $sql .= " LIMIT $limit";
+            if ($limit !== null) {
+                $sql .= ' LIMIT ' . (int) $limit;
             }
 
             $stmt = $this->conn->prepare($sql);

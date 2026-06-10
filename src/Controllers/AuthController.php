@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Dotenv\Dotenv;
+use App\Utility\Security;
 
 class AuthController
 {
@@ -15,6 +16,7 @@ class AuthController
 
     public function logout()
     {
+        Security::verifyCsrf();
         session_destroy();
         header('location: /');
         exit();
@@ -38,12 +40,20 @@ class AuthController
 
     public function login()
     {
+        // Rate limiting: maks 5 percobaan per 60 detik
+        Security::rateLimit('login', 5, 60);
+
+        // Verifikasi CSRF token
+        Security::verifyCsrf();
+
         $body = (object) $_POST;
-        $pass = $body->password;
+        $pass = $body->password ?? '';
 
-
-        if ($pass == $_ENV['PW_ADMIN']) {
-            $_SESSION['authToken'] = base64_encode(md5(date('YmdHis')));
+        if (hash_equals($_ENV['PW_ADMIN'], $pass)) {
+            // Cegah session fixation: regenerasi ID session setelah login
+            session_regenerate_id(true);
+            $_SESSION['authToken'] = bin2hex(random_bytes(32));
+            $_SESSION['auth_time'] = time();
             header('location: /statistik');
             exit();
         } else {

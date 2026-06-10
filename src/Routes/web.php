@@ -1,6 +1,10 @@
 <?php
 
 use Bramus\Router\Router;
+use App\Utility\Security;
+
+// Inisialisasi CSRF token di awal setiap request
+Security::csrfToken();
 
 $router = new Router();
 $router->setNamespace('App\Controllers');
@@ -10,7 +14,9 @@ $router->get('/', 'ViewController@home');
 $router->before('GET', '/login', 'AuthController@logged');
 $router->get('/login', 'ViewController@login');
 $router->post('/login', 'AuthController@login');
-$router->get('/logout', 'AuthController@logout');
+
+// Logout via POST untuk mencegah CSRF logout attack
+$router->post('/logout', 'AuthController@logout');
 
 
 
@@ -19,32 +25,49 @@ $router->get('/survei-pembangunan-zi', 'ViewController@questSecond');
 $router->before('GET', '/statistik', 'AuthController@authenticate');
 $router->get('/statistik', 'ViewController@statistic');
 
+// Route /pegawai dilindungi autentikasi (berisi NIP/NIK/data PII)
+$router->before('GET', '/penilaian-pegawai', 'AuthController@authenticate');
 $router->get('/penilaian-pegawai', 'ViewController@employeeMain');
+$router->before('GET', '/penilaian-pegawai/(.*)', 'AuthController@authenticate');
 $router->get('/penilaian-pegawai/{employee_id}', 'ViewController@employeeDetail');
 
+$router->before('GET', '/pegawai', 'AuthController@authenticate');
 $router->get('/pegawai', 'EmployeeController@store');
+$router->before('GET', '/pegawai/(.*)', 'AuthController@authenticate');
 $router->get('/pegawai/{employee_id}', 'EmployeeController@find');
 
+// Endpoint publik survei — rate limited di controller
 $router->post('/submit/quest/{category}', 'RateController@submitQuest');
 $router->post('/rating', 'RateController@employeeRate');
 
+// API admin — wajib autentikasi + CSRF
 $router->before('GET',    '/api/rating/stats',   'AuthController@authenticate');
 $router->get('/api/rating/stats',               'RateController@apiStats');
 $router->before('GET',    '/api/rating/list',    'AuthController@authenticate');
 $router->get('/api/rating/list',                'RateController@apiRatings');
+
 $router->before('PATCH',  '/api/rating/status',  'AuthController@authenticate');
+$router->before('PATCH',  '/api/rating/status',  function() { \App\Utility\Security::verifyCsrf(); });
 $router->patch('/api/rating/status',            'RateController@updateRatingStatus');
+
 $router->before('DELETE', '/api/rating/delete',  'AuthController@authenticate');
+$router->before('DELETE', '/api/rating/delete',  function() { \App\Utility\Security::verifyCsrf(); });
 $router->delete('/api/rating/delete',           'RateController@deleteRating');
 
-// Employee CRUD API
+// Employee CRUD API — wajib autentikasi + CSRF
 $router->before('GET',    '/api/employee/list',            'AuthController@authenticate');
 $router->get('/api/employee/list',                         'EmployeeController@apiListAll');
+
 $router->before('POST',   '/api/employee/create',          'AuthController@authenticate');
+$router->before('POST',   '/api/employee/create',          function() { \App\Utility\Security::verifyCsrf(); });
 $router->post('/api/employee/create',                      'EmployeeController@apiCreate');
+
 $router->before('PATCH',  '/api/employee/update/(\d+)',    'AuthController@authenticate');
+$router->before('PATCH',  '/api/employee/update/(\d+)',    function() { \App\Utility\Security::verifyCsrf(); });
 $router->patch('/api/employee/update/(\d+)',               'EmployeeController@apiUpdate');
+
 $router->before('DELETE', '/api/employee/delete/(\d+)',    'AuthController@authenticate');
+$router->before('DELETE', '/api/employee/delete/(\d+)',    function() { \App\Utility\Security::verifyCsrf(); });
 $router->delete('/api/employee/delete/(\d+)',              'EmployeeController@apiDelete');
 
 // Survey data APIs
