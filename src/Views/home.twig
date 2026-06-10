@@ -1,35 +1,90 @@
 {% extends "layout.twig" %}
 {% block content %}
-<div class="content">
-    <div class="container">
-        <div class="d-flex justify-content-center align-items-center min-vh-100">
-            <div class="row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Survei Kepuasan Masyarakat</h5>
-                            <p class="card-text">Isi kuesioner tentang kepuasan masyarakat terhadap layanan administrasi
-                                kependudukan.</p>
-                            <a href="/survei-kepuasan-masyarakat" class="btn btn-primary">Isi Kuesioner</a>
+<div class="content home-content min-vh-100 d-flex flex-column justify-content-between py-4 py-md-5">
+    <div class="container my-auto animate-fade-in">
+        <!-- Hero Header -->
+        <div class="text-center mb-5">
+            <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mb-4 p-3 border border-light" style="width: 80px; height: 80px; transition: transform 0.3s ease;" onmouseover="this.style.transform='rotate(15deg)'" onmouseout="this.style.transform='rotate(0deg)'">
+                <i class="bi bi-patch-check-fill text-primary fs-2"></i>
+            </div>
+            <h1 class="fw-bold text-dark tracking-tight mb-2 px-2" style="font-size: 2.25rem;">
+                Sistem E-Survei & Penilaian
+            </h1>
+            <p class="text-secondary mx-auto mb-0 px-3 col-lg-8 col-md-10" style="font-size: 1rem; line-height: 1.6;">
+                Dinas Kependudukan dan Pencatatan Sipil Kabupaten Tapin. Partisipasi Anda membantu kami meningkatkan kualitas pelayanan publik menjadi lebih prima.
+            </p>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="row g-4 justify-content-center">
+            <!-- SKM Survey Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative hover-lift">
+                    <div class="position-absolute top-0 start-0 w-100" style="height: 6px; background: linear-gradient(90deg, #4f46e5, #06b6d4);"></div>
+                    <div class="card-body p-4 d-flex flex-column justify-content-between" style="min-height: 280px;">
+                        <div>
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-3 bg-gradient-primary-soft text-primary mb-4" style="width: 56px; height: 56px;">
+                                <i class="bi bi-chat-heart-fill fs-3"></i>
+                            </div>
+                            <h4 class="card-title fw-bold text-dark mb-2">Kepuasan Masyarakat (SKM)</h4>
+                            <p class="card-text text-secondary mb-4 small" style="line-height: 1.5;">
+                                Berikan penilaian Anda terkait kualitas layanan administrasi kependudukan yang telah Anda terima.
+                            </p>
                         </div>
+                        <a href="/survei-kepuasan-masyarakat" class="btn btn-primary w-100 py-2.5 rounded-3 fw-semibold transition-all shadow-sm">
+                            Mulai Survei <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Survei Zona Integritas</h5>
-                            <p class="card-text">Survei hasil pembangunan Zona Integritas pada Dinas Kependudukan dan
-                                Pencatatan Sipil Kab. Tapin
+            </div>
+
+            <!-- ZI Survey Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative hover-lift">
+                    <div class="position-absolute top-0 start-0 w-100" style="height: 6px; background: linear-gradient(90deg, #10b981, #3b82f6);"></div>
+                    <div class="card-body p-4 d-flex flex-column justify-content-between" style="min-height: 280px;">
+                        <div>
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-3 bg-gradient-success-soft text-success mb-4" style="width: 56px; height: 56px;">
+                                <i class="bi bi-shield-fill-check fs-3"></i>
+                            </div>
+                            <h4 class="card-title fw-bold text-dark mb-2">Zona Integritas (ZI)</h4>
+                            <p class="card-text text-secondary mb-4 small" style="line-height: 1.5;">
+                                Bantu kami mengukur hasil pembangunan Zona Integritas menuju wilayah yang bebas korupsi (WBK).
                             </p>
-                            <a href="/survei-pembangunan-zi" class="btn btn-primary">Isi Kuesioner</a>
                         </div>
+                        <a href="/survei-pembangunan-zi" class="btn btn-success w-100 py-2.5 rounded-3 fw-semibold transition-all text-white shadow-sm">
+                            Mulai Survei <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Rating Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative hover-lift">
+                    <div class="position-absolute top-0 start-0 w-100" style="height: 6px; background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                    <div class="card-body p-4 d-flex flex-column justify-content-between" style="min-height: 280px;">
+                        <div>
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-3 bg-gradient-warning-soft text-warning mb-4" style="width: 56px; height: 56px;">
+                                <i class="bi bi-star-fill fs-3"></i>
+                            </div>
+                            <h4 class="card-title fw-bold text-dark mb-2">Penilaian Pegawai</h4>
+                            <p class="card-text text-secondary mb-4 small" style="line-height: 1.5;">
+                                Berikan ulasan atau penilaian langsung kepada petugas pelayanan kami secara spesifik.
+                            </p>
+                        </div>
+                        <a href="/penilaian-pegawai" class="btn btn-warning w-100 py-2.5 rounded-3 fw-semibold transition-all text-white shadow-sm">
+                            Beri Nilai <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="fixed-bottom text-center p-4 small text-secondary fw-bold text-uppercase">
-            &copy;2024 Disdukcapil Kab. Tapin
-        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center p-4 text-secondary small fw-medium mt-5">
+        &copy; 2026 Disdukcapil Kab. Tapin &bull; Layanan Terintegrasi
     </div>
 </div>
 {% endblock %}

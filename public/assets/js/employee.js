@@ -51,21 +51,29 @@ $(document).ready(function () {
         cancelButtonText: "Tidak, batalkan!",
       }).then((result) => {
         if (result.isConfirmed) {
-          $.post("/rating", { pid: pid, rate: rate }, function (data) {
-            if (data == "success") {
-              Swal.fire({
-                title: "Rating berhasil!",
-                text: "Terima kasih atas rating yang Anda berikan.",
-                icon: "success",
-              });
-            } else {
-              Swal.fire({
-                title: "Rating gagal!",
-                text: "Rating tidak dapat disimpan.",
-                icon: "error",
-              });
-            }
-          });
+          $.post(
+            "/rating",
+            { pid: pid, rate: rate },
+            function (data) {
+              const res = typeof data === "string" ? JSON.parse(data) : data;
+              if (res.status === "success") {
+                Swal.fire({
+                  title: "Rating berhasil!",
+                  text:
+                    res.message ||
+                    "Terima kasih atas rating yang Anda berikan.",
+                  icon: "success",
+                });
+              } else {
+                Swal.fire({
+                  title: "Rating gagal!",
+                  text: res.message || "Rating tidak dapat disimpan.",
+                  icon: "error",
+                });
+              }
+            },
+            "json",
+          );
         }
       });
     });

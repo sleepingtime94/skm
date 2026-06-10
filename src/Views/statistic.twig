@@ -1,137 +1,402 @@
 {% extends 'layout.twig' %}
 {% block content %}
-<div class="container-fluid bg-white">
-    <div class="p-3 fs-3 fw-bold">
-        Statistik
-    </div>
-    <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active" id="nav-layanan-tab" data-bs-toggle="tab" data-bs-target="#nav-layanan"
-                type="button" role="tab" aria-controls="nav-layanan" aria-selected="true">Penilaian Layanan</button>
-            <button class="nav-link" id="nav-zi-tab" data-bs-toggle="tab" data-bs-target="#nav-zi" type="button"
-                role="tab" aria-controls="nav-zi" aria-selected="false">Survei Zona
-                Integritas</button>
-        </div>
-    </nav>
-    <div class="row g-2 px-3 mb-3">
-        <form method="GET" action="" class="row g-2 align-items-end">
-            <div class="col-md-3">
-                <label for="month" class="form-label small fw-semibold">Bulan</label>
-                <select class="form-select form-select-sm" id="month" name="month">
-                    {% for i in 1..12 %}
-                    <option value="{{ i }}" {{ i == (month ?? ('now'|date('n'))) ? 'selected' : '' }}>
-                        {{ date('2025-' ~ i ~ '-01')|date('F') }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="year" class="form-label small fw-semibold">Tahun</label>
-                <select class="form-select form-select-sm" id="year" name="year">
-                    {% for year in range(2025, date()|date('Y')) %}
-                    <option value="{{ year }}" {{ year == (year ?? ('now'|date('Y'))) ? 'selected' : '' }}>
-                        {{ year }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-primary btn-sm">Filter</button>
-                <a href="/statistik" class="btn btn-secondary btn-sm">Reset</a>
-            </div>
-        </form>
-    </div>
-    <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-layanan" role="tabpanel" aria-labelledby="nav-layanan-tab">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover small">
-                    <thead class="table-primary">
-                        <tr class="align-middle">
-                            <th scope="col">Tgl.</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Kontak</th>
-                            <th scope="col">Umur</th>
-                            <th scope="col">Pendidikan</th>
-                            <th scope="col">Pekerjaan</th>
-                            <th scope="col">Layanan</th>
-                            {% for i in range(1, 9) %}
-                            <th scope="col" class="text-center">
-                                Kuis {{ i }}
-                            </th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for data in skms %}
-                        <tr>
-                            <td class="small">{{ data.created_at }}</td>
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.phone }}</td>
-                            <td>{{ data.age }}</td>
-                            <td>{{ data.study }}</td>
-                            <td>{{ data.job }}</td>
-                            <td>{{ data.product }}</td>
-                            {% for i in range(1, 9) %}
-                            <td>
-                                {{ data['quest_' ~ i] }}
-                            </td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+
+<!-- Mobile Overlay -->
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+<div class="dash-wrapper">
+    <!-- ═══ Sidebar ═══════════════════════════════════════════ -->
+    <aside class="dash-sidebar" id="dash-sidebar">
+        <div class="brand">
+            <div class="brand-icon"><i class="bi bi-patch-check-fill"></i></div>
+            <div class="brand-text">
+                Disdukcapil
+                <small>Kabupaten Tapin</small>
             </div>
         </div>
-        <div class="tab-pane fade" id="nav-zi" role="tabpanel" aria-labelledby="nav-zi-tab">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover small">
-                    <thead class="table-primary">
-                        <tr class="align-middle">
-                            <th scope="col">Tgl.</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Kontak</th>
-                            <th scope="col">Umur</th>
-                            <th scope="col">Pendidikan</th>
-                            <th scope="col">Pekerjaan</th>
-                            <th scope="col">Saran</th>
-                            <th scope="col">Layanan</th>
-                            <th scope="col">Kuis 1</th>
-                            <th scope="col">Kuis 2</th>
-                            <th scope="col">Kuis 3</th>
-                            <th scope="col">Kuis 4</th>
-                            <th scope="col">Kuis 5</th>
-                            <th scope="col">Kuis 6</th>
-                            <th scope="col">Kuis 7</th>
-                            <th scope="col">Kuis 8</th>
-                            <th scope="col">Kuis 9</th>
-                            <th scope="col">Kuis 10</th>
-                            <th scope="col">Kuis 11</th>
-                            <th scope="col">Kuis 12</th>
-                            <th scope="col">Kuis 13</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for data in zis %}
-                        <tr>
-                            <td class="small">{{ data.created_at }}</td>
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.contact }}</td>
-                            <td>{{ data.age }}</td>
-                            <td>{{ data.study }}</td>
-                            <td>{{ data.job }}</td>
-                            <td>{{ data.suggest }}</td>
-                            <td>{{ data.product }}</td>
-                            {% for i in range(1, 14) %}
-                            <td>
-                                {{ data['quest_' ~ i] }}
-                            </td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+        <div class="nav-section">
+            <div class="nav-label">Menu Utama</div>
+            <a class="nav-item active" data-page="overview" href="#">
+                <i class="bi bi-grid-1x2-fill"></i> Dashboard
+            </a>
+            <a class="nav-item" data-page="employees" href="#">
+                <i class="bi bi-people-fill"></i> Kelola Pegawai
+            </a>
+            <a class="nav-item" data-page="ratings" href="#">
+                <i class="bi bi-star-fill"></i> Penilaian Pegawai
+            </a>
+
+            <div class="nav-label mt-3">Data Survei</div>
+            <a class="nav-item" data-page="skm" href="#">
+                <i class="bi bi-chat-heart-fill"></i> Survei SKM
+            </a>
+            <a class="nav-item" data-page="zi" href="#">
+                <i class="bi bi-shield-fill-check"></i> Survei ZI
+            </a>
+        </div>
+
+        <div class="nav-footer">
+            <a href="/logout" class="nav-item text-danger" style="border-left:0;padding:.5rem 0;">
+                <i class="bi bi-box-arrow-left"></i> Keluar
+            </a>
+        </div>
+    </aside>
+
+    <!-- ═══ Main ══════════════════════════════════════════════ -->
+    <div class="dash-main">
+        <!-- Topbar -->
+        <div class="dash-topbar">
+            <div class="d-flex align-items-center gap-3">
+                <button id="sidebar-toggle" class="sidebar-toggle"><i class="bi bi-list"></i></button>
+                <span class="page-title" id="page-title">Dashboard</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small d-none d-md-inline"><i class="bi bi-person-circle me-1"></i>Administrator</span>
+                <a href="/" class="btn btn-sm btn-outline-secondary"><i class="bi bi-house me-1"></i>Beranda</a>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="dash-content">
+
+            <!-- ── OVERVIEW PAGE ─────────────────────────────── -->
+            <div class="dash-page active" id="page-overview">
+                <!-- Stat Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-lg-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-primary-subtle text-primary"><i class="bi bi-people-fill"></i></div>
+                            <div class="info-body">
+                                <div class="label">Total Pegawai</div>
+                                <div class="value text-primary" id="ov-total-emp">—</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-info-subtle text-info"><i class="bi bi-clipboard-data-fill"></i></div>
+                            <div class="info-body">
+                                <div class="label">Total Penilaian</div>
+                                <div class="value text-info" id="ov-total-rat">—</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-success-subtle text-success"><i class="bi bi-hand-thumbs-up-fill"></i></div>
+                            <div class="info-body">
+                                <div class="label">Penilaian Bagus</div>
+                                <div class="value text-success" id="ov-bagus">—</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-danger-subtle text-danger"><i class="bi bi-hand-thumbs-down-fill"></i></div>
+                            <div class="info-body">
+                                <div class="label">Penilaian Buruk</div>
+                                <div class="value text-danger" id="ov-buruk">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Panels -->
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="section-card h-100">
+                            <div class="section-header">
+                                <h5><i class="bi bi-trophy-fill text-warning me-2"></i>Pegawai Terbaik</h5>
+                            </div>
+                            <div class="section-body" id="ov-top-employees">
+                                <div class="text-muted small text-center py-3">Memuat…</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="section-card h-100">
+                            <div class="section-header">
+                                <h5><i class="bi bi-clock-history text-primary me-2"></i>Penilaian Terbaru</h5>
+                            </div>
+                            <div class="section-body" id="ov-recent-ratings">
+                                <div class="text-muted small text-center py-3">Memuat…</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── EMPLOYEES PAGE ────────────────────────────── -->
+            <div class="dash-page" id="page-employees">
+                <div class="section-card mb-4">
+                    <div class="section-header">
+                        <h5><i class="bi bi-people-fill text-primary me-2"></i>Daftar Pegawai</h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <input type="text" id="emp-search" class="form-control form-control-sm" placeholder="Cari nama…" style="max-width:180px;" oninput="renderEmployees()">
+                            <select id="emp-filter-job" class="form-select form-select-sm" style="max-width:150px;" onchange="renderEmployees()">
+                                <option value="">Semua Jabatan</option>
+                                <option value="FO">Front Office</option>
+                                <option value="FD">Front Desk</option>
+                                <option value="OPR">Operator</option>
+                                <option value="NONE">Tidak Ada</option>
+                            </select>
+                            <button class="btn btn-sm btn-primary" onclick="showAddEmployee()">
+                                <i class="bi bi-plus-lg me-1"></i>Tambah
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-body no-pad">
+                        <div class="table-responsive">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th class="ps-3">Nama</th>
+                                        <th>NIP</th>
+                                        <th>Jabatan/Posisi</th>
+                                        <th class="text-center">Tugas</th>
+                                        <th>Keterangan</th>
+                                        <th class="text-center pe-3">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="emp-tbody">
+                                    <tr><td colspan="6" class="text-center py-4 text-muted">Memuat…</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between px-3 py-2 border-top">
+                            <div class="text-muted small" id="emp-page-info"></div>
+                            <nav><ul class="pagination pagination-sm mb-0 gap-1" id="emp-pagination"></ul></nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── RATINGS PAGE ──────────────────────────────── -->
+            <div class="dash-page" id="page-ratings">
+                <!-- Summary Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-primary-subtle text-primary"><i class="bi bi-clipboard-data-fill"></i></div>
+                            <div class="info-body"><div class="label">Total</div><div class="value text-primary" id="rat-total">—</div></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-success-subtle text-success"><i class="bi bi-hand-thumbs-up-fill"></i></div>
+                            <div class="info-body"><div class="label">Bagus (5★)</div><div class="value text-success" id="rat-bagus">—</div></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-info-subtle text-info"><i class="bi bi-hand-thumbs-up"></i></div>
+                            <div class="info-body"><div class="label">Lumayan (3★)</div><div class="value text-info" id="rat-lumayan">—</div></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <div class="icon-box bg-danger-subtle text-danger"><i class="bi bi-hand-thumbs-down-fill"></i></div>
+                            <div class="info-body"><div class="label">Buruk (1★)</div><div class="value text-danger" id="rat-buruk">—</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Per-Employee Stats -->
+                <div class="section-card mb-4">
+                    <div class="section-header">
+                        <h5><i class="bi bi-bar-chart-fill text-primary me-2"></i>Statistik per Pegawai</h5>
+                        <button class="btn btn-sm btn-outline-primary" onclick="loadRatings()"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+                    </div>
+                    <div class="section-body" id="rat-employee-stats">
+                        <div class="text-muted small text-center py-3">Memuat…</div>
+                    </div>
+                </div>
+
+                <!-- Rating Table -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h5><i class="bi bi-table text-primary me-2"></i>Riwayat Penilaian</h5>
+                        <div class="d-flex gap-2">
+                            <input type="text" id="rat-search" class="form-control form-control-sm" placeholder="Cari pegawai…" style="max-width:180px;" oninput="renderRatingTable()">
+                            <select id="rat-filter-val" class="form-select form-select-sm" style="max-width:140px;" onchange="renderRatingTable()">
+                                <option value="">Semua Nilai</option>
+                                <option value="5">Bagus (5★)</option>
+                                <option value="3">Lumayan (3★)</option>
+                                <option value="1">Buruk (1★)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="section-body no-pad">
+                        <div class="table-responsive">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th class="ps-3">Tanggal</th>
+                                        <th>Nama Pegawai</th>
+                                        <th>Jabatan</th>
+                                        <th class="text-center">Nilai</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center pe-3">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rat-tbody">
+                                    <tr><td colspan="6" class="text-center py-4 text-muted">Memuat…</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between px-3 py-2 border-top">
+                            <div class="text-muted small" id="rat-page-info"></div>
+                            <nav><ul class="pagination pagination-sm mb-0 gap-1" id="rat-pagination"></ul></nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SKM PAGE ──────────────────────────────────── -->
+            <div class="dash-page" id="page-skm">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h5><i class="bi bi-chat-heart-fill text-primary me-2"></i>Data Survei SKM</h5>
+                        <div class="d-flex gap-2 align-items-end flex-wrap">
+                            <select id="skm-month" class="form-select form-select-sm" style="max-width:130px;">
+                                {% for i in 1..12 %}
+                                <option value="{{ i }}" {{ i==('now'|date('n')) ? 'selected' : '' }}>
+                                    {{ date('2025-' ~ i ~ '-01')|date('F') }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <select id="skm-year" class="form-select form-select-sm" style="max-width:100px;">
+                                {% for y in range(2025, date()|date('Y')) %}
+                                <option value="{{ y }}" {{ y==('now'|date('Y')) ? 'selected' : '' }}>{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="btn btn-sm btn-primary" onclick="loadSKM()"><i class="bi bi-funnel me-1"></i>Filter</button>
+                        </div>
+                    </div>
+                    <div class="section-body no-pad">
+                        <div class="table-responsive">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tgl.</th><th>Nama</th><th>Kontak</th><th>Umur</th>
+                                        <th>Pendidikan</th><th>Pekerjaan</th><th>Layanan</th>
+                                        {% for i in 1..9 %}<th class="text-center">K{{ i }}</th>{% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody id="skm-tbody">
+                                    <tr><td colspan="16" class="text-center py-4 text-muted">Klik Filter untuk memuat data.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── ZI PAGE ───────────────────────────────────── -->
+            <div class="dash-page" id="page-zi">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h5><i class="bi bi-shield-fill-check text-success me-2"></i>Data Survei Zona Integritas</h5>
+                        <div class="d-flex gap-2 align-items-end flex-wrap">
+                            <select id="zi-month" class="form-select form-select-sm" style="max-width:130px;">
+                                {% for i in 1..12 %}
+                                <option value="{{ i }}" {{ i==('now'|date('n')) ? 'selected' : '' }}>
+                                    {{ date('2025-' ~ i ~ '-01')|date('F') }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <select id="zi-year" class="form-select form-select-sm" style="max-width:100px;">
+                                {% for y in range(2025, date()|date('Y')) %}
+                                <option value="{{ y }}" {{ y==('now'|date('Y')) ? 'selected' : '' }}>{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="btn btn-sm btn-success" onclick="loadZI()"><i class="bi bi-funnel me-1"></i>Filter</button>
+                        </div>
+                    </div>
+                    <div class="section-body no-pad">
+                        <div class="table-responsive">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tgl.</th><th>Nama</th><th>Kontak</th><th>Umur</th>
+                                        <th>Pendidikan</th><th>Pekerjaan</th><th>Saran</th><th>Layanan</th>
+                                        {% for i in 1..13 %}<th class="text-center">K{{ i }}</th>{% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody id="zi-tbody">
+                                    <tr><td colspan="22" class="text-center py-4 text-muted">Klik Filter untuk memuat data.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ═══ Employee Modal ════════════════════════════════════════ -->
+<div class="modal fade" id="empModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="emp-modal-title">Tambah Pegawai</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="emp-form" onsubmit="event.preventDefault(); saveEmployee();">
+                    <input type="hidden" id="emp-form-id">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-sm" id="emp-f-name" required>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">NIP</label>
+                            <input type="text" class="form-control form-control-sm" id="emp-f-nip">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">NIK</label>
+                            <input type="text" class="form-control form-control-sm" id="emp-f-nik">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Jabatan / Posisi</label>
+                        <input type="text" class="form-control form-control-sm" id="emp-f-position">
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Tugas</label>
+                            <select class="form-select form-select-sm" id="emp-f-job">
+                                <option value="">— Pilih —</option>
+                                <option value="FO">Front Office</option>
+                                <option value="FD">Front Desk</option>
+                                <option value="OPR">Operator</option>
+                                <option value="NONE">Tidak Ada</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Tgl. Lahir</label>
+                            <input type="date" class="form-control form-control-sm" id="emp-f-ttl">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Keterangan / Tentang</label>
+                        <input type="text" class="form-control form-control-sm" id="emp-f-about" placeholder="Deskripsi singkat…">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                        <i class="bi bi-check-lg me-1"></i>Simpan
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=" crossorigin="anonymous"></script>
+<script src="/assets/js/dashboard.js"></script>
 {% endblock %}

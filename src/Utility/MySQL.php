@@ -105,6 +105,53 @@ class MySQL
         }
     }
 
+    public function update($table, $params = array(), $conditions = array())
+    {
+        try {
+            $setClauses = [];
+            $values = [];
+            foreach ($params as $key => $value) {
+                $setClauses[] = "`$key` = ?";
+                $values[] = $value;
+            }
+            $whereClauses = [];
+            foreach ($conditions as $key => $value) {
+                $whereClauses[] = "`$key` = ?";
+                $values[] = $value;
+            }
+            $sql = "UPDATE `{$table}` SET " . implode(', ', $setClauses);
+            if (!empty($whereClauses)) {
+                $sql .= ' WHERE ' . implode(' AND ', $whereClauses);
+            }
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($values);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    public function delete($table, $conditions = array())
+    {
+        try {
+            $whereClauses = [];
+            $values = [];
+            foreach ($conditions as $key => $value) {
+                $whereClauses[] = "`$key` = ?";
+                $values[] = $value;
+            }
+            $sql = "DELETE FROM `{$table}`";
+            if (!empty($whereClauses)) {
+                $sql .= ' WHERE ' . implode(' AND ', $whereClauses);
+            }
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($values);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
     public function __destruct()
     {
         $this->conn = null;
