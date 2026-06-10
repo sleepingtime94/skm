@@ -50,9 +50,9 @@ $router->get('/penilaian-pegawai', 'ViewController@employeeMain');
 // $router->before('GET', '/penilaian-pegawai/(.*)', 'AuthController@authenticate');
 $router->get('/penilaian-pegawai/{employee_id}', 'ViewController@employeeDetail');
 
-$router->before('GET', '/pegawai', 'AuthController@authenticate');
+// $router->before('GET', '/pegawai', 'AuthController@authenticate');
 $router->get('/pegawai', 'EmployeeController@store');
-$router->before('GET', '/pegawai/(.*)', 'AuthController@authenticate');
+// $router->before('GET', '/pegawai/(.*)', 'AuthController@authenticate');
 $router->get('/pegawai/{employee_id}', 'EmployeeController@find');
 
 // Endpoint publik survei — rate limited di controller

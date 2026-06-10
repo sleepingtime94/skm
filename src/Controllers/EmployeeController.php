@@ -18,6 +18,15 @@ class EmployeeController
         $result = $this->db->select('employee', [
             'employee_job' => ['IN', ['FO', 'FD', 'OPR']]
         ], 'employee_name ASC');
+
+        // Hapus data PII agar tidak bocor ke publik
+        foreach ($result as &$row) {
+            unset($row['employee_nip']);
+            unset($row['employee_nik']);
+            unset($row['employee_ttl']);
+        }
+        unset($row); // break reference
+
         echo json_encode($result);
     }
 
@@ -29,7 +38,12 @@ class EmployeeController
         ], 'employee_id DESC');
 
         if (count($result) > 0) {
-            return json_encode($result[0]);
+            $row = $result[0];
+            // Hapus data PII agar tidak bocor ke publik
+            unset($row['employee_nip']);
+            unset($row['employee_nik']);
+            unset($row['employee_ttl']);
+            return json_encode($row);
         } else {
             return json_encode(['message' => 'Pegawai tidak ditemukan']);
         }
