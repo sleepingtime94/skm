@@ -225,6 +225,7 @@ function renderEmployees() {
       .map(
         (e) => `<tr>
       <td class="ps-3 fw-semibold">${e.employee_name ?? "—"}</td>
+      <td class="text-muted" style="font-size:.78rem;">${e.employee_id ?? "—"}</td>
       <td class="text-muted" style="font-size:.78rem;">${e.employee_nip ?? "—"}</td>
       <td>${e.employee_position ?? "—"}</td>
       <td class="text-center">${jobBadge(e.employee_job)}</td>

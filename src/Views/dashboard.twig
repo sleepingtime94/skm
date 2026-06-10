@@ -159,6 +159,7 @@
                                 <thead>
                                     <tr>
                                         <th class="ps-3">Nama</th>
+                                        <th>ID</th>
                                         <th>NIP</th>
                                         <th>Jabatan/Posisi</th>
                                         <th class="text-center">Tugas</th>
@@ -456,8 +457,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=" crossorigin="anonymous"></script>
+
 <script>
     // Baca CSRF token dari meta tag dan inject ke semua fetch request
     const _csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
