@@ -79,11 +79,13 @@ class RateController
 
     public function employeeRate()
     {
-        // Rate limiting: maks 10 penilaian per 10 menit
+        // Rate limiting: maks 10 penilaian per 10 menit per session
         Security::rateLimit('employee_rate', 10, 600);
 
-        $pid  = filter_var($_POST['pid']  ?? null, FILTER_VALIDATE_INT);
-        $rate = (int) ($_POST['rate'] ?? 0);
+        $pid   = filter_var($_POST['pid']  ?? null, FILTER_VALIDATE_INT);
+        $rate  = (int) ($_POST['rate'] ?? 0);
+        $phone = trim($_POST['phone'] ?? '');
+        $name  = trim($_POST['name'] ?? '');
 
         if (!$pid || $pid <= 0) {
             echo json_encode(['status' => 'error', 'message' => 'ID pegawai tidak valid.']);
@@ -95,10 +97,24 @@ class RateController
             return;
         }
 
+        if (empty($phone)) {
+            echo json_encode(['status' => 'error', 'message' => 'Nomor WhatsApp / HP wajib diisi.']);
+            return;
+        }
+
+        if (!preg_match('/^(08|\+62)[0-9]{8,12}$/', $phone)) {
+            echo json_encode(['status' => 'error', 'message' => 'Format nomor HP tidak valid (diawali 08/+62, 10-14 digit).']);
+            return;
+        }
+
+
         $this->db->create('rating', [
             'rate_employee_id' => $pid,
             'rate_value'       => $rate,
+            'rate_phone'       => $phone,
+            'rate_name'        => !empty($name) ? $name : null,
         ]);
+
         echo json_encode([
             'status'  => 'success',
             'message' => 'Terimakasih atas penilaian anda, ini akan menjadi bahan evaluasi kami kedepannya.'
@@ -149,7 +165,6 @@ class RateController
         );
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
-
 
 
     public function deleteRating()
