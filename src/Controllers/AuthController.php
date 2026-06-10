@@ -33,7 +33,7 @@ class AuthController
     public function logged()
     {
         if (isset($_SESSION['authToken'])) {
-            header('location: /statistik');
+            header('location: /dashboard');
             exit();
         }
     }
@@ -54,7 +54,7 @@ class AuthController
             session_regenerate_id(true);
             $_SESSION['authToken'] = bin2hex(random_bytes(32));
             $_SESSION['auth_time'] = time();
-            header('location: /statistik');
+            header('location: /dashboard');
             exit();
         } else {
             header('location: /login');

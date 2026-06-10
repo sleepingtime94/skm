@@ -54,7 +54,7 @@ class ViewController
     }
 
 
-    public function statistic($month = null, $year = null)
+    public function dashboard($month = null, $year = null)
     {
         // Ambil dari query string jika tidak lewat route
         if ($month === null) {
@@ -69,7 +69,7 @@ class ViewController
         $skms = $this->rate->viewRateSKM($month, $year);
         $zis  = $this->rate->viewRateZI($month, $year);
 
-        $this->render('statistic.twig', [
+        $this->render('dashboard.twig', [
             'skms'  => $skms,
             'zis'   => $zis,
             'month' => $month,

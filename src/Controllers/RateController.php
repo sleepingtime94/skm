@@ -145,7 +145,7 @@ class RateController
              LEFT JOIN rating r ON e.employee_id = r.rate_employee_id
              WHERE e.employee_job IN ('FO','FD','OPR')
              GROUP BY e.employee_id, e.employee_name, e.employee_job
-             ORDER BY avg_value DESC"
+             ORDER BY avg_value DESC, total_ratings DESC"
         );
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }

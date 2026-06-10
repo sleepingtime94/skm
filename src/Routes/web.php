@@ -22,8 +22,8 @@ $router->post('/logout', 'AuthController@logout');
 
 $router->get('/survei-kepuasan-masyarakat', 'ViewController@questMain');
 $router->get('/survei-pembangunan-zi', 'ViewController@questSecond');
-$router->before('GET', '/statistik', 'AuthController@authenticate');
-$router->get('/statistik', 'ViewController@statistic');
+$router->before('GET', '/dashboard', 'AuthController@authenticate');
+$router->get('/dashboard', 'ViewController@dashboard');
 
 // Route /pegawai dilindungi autentikasi (berisi NIP/NIK/data PII)
 $router->before('GET', '/penilaian-pegawai', 'AuthController@authenticate');
@@ -47,7 +47,9 @@ $router->before('GET',    '/api/rating/list',    'AuthController@authenticate');
 $router->get('/api/rating/list',                'RateController@apiRatings');
 
 $router->before('DELETE', '/api/rating/delete',  'AuthController@authenticate');
-$router->before('DELETE', '/api/rating/delete',  function() { \App\Utility\Security::verifyCsrf(); });
+$router->before('DELETE', '/api/rating/delete',  function () {
+    \App\Utility\Security::verifyCsrf();
+});
 $router->delete('/api/rating/delete',           'RateController@deleteRating');
 
 // Employee CRUD API — wajib autentikasi + CSRF
@@ -55,15 +57,21 @@ $router->before('GET',    '/api/employee/list',            'AuthController@authe
 $router->get('/api/employee/list',                         'EmployeeController@apiListAll');
 
 $router->before('POST',   '/api/employee/create',          'AuthController@authenticate');
-$router->before('POST',   '/api/employee/create',          function() { \App\Utility\Security::verifyCsrf(); });
+$router->before('POST',   '/api/employee/create',          function () {
+    \App\Utility\Security::verifyCsrf();
+});
 $router->post('/api/employee/create',                      'EmployeeController@apiCreate');
 
 $router->before('PATCH',  '/api/employee/update/(\d+)',    'AuthController@authenticate');
-$router->before('PATCH',  '/api/employee/update/(\d+)',    function() { \App\Utility\Security::verifyCsrf(); });
+$router->before('PATCH',  '/api/employee/update/(\d+)',    function () {
+    \App\Utility\Security::verifyCsrf();
+});
 $router->patch('/api/employee/update/(\d+)',               'EmployeeController@apiUpdate');
 
 $router->before('DELETE', '/api/employee/delete/(\d+)',    'AuthController@authenticate');
-$router->before('DELETE', '/api/employee/delete/(\d+)',    function() { \App\Utility\Security::verifyCsrf(); });
+$router->before('DELETE', '/api/employee/delete/(\d+)',    function () {
+    \App\Utility\Security::verifyCsrf();
+});
 $router->delete('/api/employee/delete/(\d+)',              'EmployeeController@apiDelete');
 
 // Survey data APIs

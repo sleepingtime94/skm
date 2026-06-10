@@ -28,54 +28,9 @@ $(document).ready(function () {
                             <a class="card-title text-decoration-none fw-bold" href="/penilaian-pegawai/${item.employee_id}">${item.employee_name}</a>
                             <div class="card-text text-secondary small">${item.employee_about}</div>
                         </div>
-                        <div class="card-footer">
-                            <button class="btn btn-outline-success" data-rate="5"><i class="bi bi-hand-thumbs-up-fill me-2"></i>Bagus</button>
-                            <button class="btn btn-outline-primary my-2" data-rate="3"><i class="bi bi-hand-thumbs-up me-2"></i>Lumayan</button>
-                            <button class="btn btn-outline-danger" data-rate="1"><i class="bi bi-hand-thumbs-down me-2"></i>Buruk</button>
-                        </div>
                     </div>
                 </div>
                 `);
-    });
-
-    $("button").click(function () {
-      const pid = $(this).parent().parent().attr("data-pid");
-      const rate = $(this).attr("data-rate");
-
-      Swal.fire({
-        title: "Beri Nilai",
-        text: "Anda yakin untuk memberikan penilaian ini?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Ya, berikan rating!",
-        cancelButtonText: "Tidak, batalkan!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.post(
-            "/rating",
-            { pid: pid, rate: rate },
-            function (data) {
-              const res = typeof data === "string" ? JSON.parse(data) : data;
-              if (res.status === "success") {
-                Swal.fire({
-                  title: "Rating berhasil!",
-                  text:
-                    res.message ||
-                    "Terima kasih atas rating yang Anda berikan.",
-                  icon: "success",
-                });
-              } else {
-                Swal.fire({
-                  title: "Rating gagal!",
-                  text: res.message || "Rating tidak dapat disimpan.",
-                  icon: "error",
-                });
-              }
-            },
-            "json",
-          );
-        }
-      });
     });
   });
 });
