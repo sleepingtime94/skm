@@ -46,10 +46,6 @@ $router->get('/api/rating/stats',               'RateController@apiStats');
 $router->before('GET',    '/api/rating/list',    'AuthController@authenticate');
 $router->get('/api/rating/list',                'RateController@apiRatings');
 
-$router->before('PATCH',  '/api/rating/status',  'AuthController@authenticate');
-$router->before('PATCH',  '/api/rating/status',  function() { \App\Utility\Security::verifyCsrf(); });
-$router->patch('/api/rating/status',            'RateController@updateRatingStatus');
-
 $router->before('DELETE', '/api/rating/delete',  'AuthController@authenticate');
 $router->before('DELETE', '/api/rating/delete',  function() { \App\Utility\Security::verifyCsrf(); });
 $router->delete('/api/rating/delete',           'RateController@deleteRating');

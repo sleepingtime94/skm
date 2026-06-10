@@ -349,14 +349,8 @@ function renderRatingTable() {
       <td class="fw-semibold">${r.employee_name??'<em class="text-danger">—</em>'}</td>
       <td class="text-muted">${r.employee_job??'—'}</td>
       <td class="text-center">${valueBadge(r.rate_value)}</td>
-      <td class="text-center" id="rat-status-${r.rate_id}">${statusBadge(r.rate_status)}</td>
       <td class="text-center pe-3">
-        <div class="d-inline-flex gap-1">
-          <button class="btn btn-sm btn-outline-success px-2 py-1" title="Setujui" onclick="ratUpdateStatus(${r.rate_id},'approved')"><i class="bi bi-check-lg"></i></button>
-          <button class="btn btn-sm btn-outline-secondary px-2 py-1" title="Pending" onclick="ratUpdateStatus(${r.rate_id},'pending')"><i class="bi bi-clock"></i></button>
-          <button class="btn btn-sm btn-outline-warning px-2 py-1" title="Tolak" onclick="ratUpdateStatus(${r.rate_id},'rejected')"><i class="bi bi-x-lg"></i></button>
-          <button class="btn btn-sm btn-outline-danger px-2 py-1" title="Hapus" onclick="ratDelete(${r.rate_id})"><i class="bi bi-trash"></i></button>
-        </div>
+        <button class="btn btn-sm btn-outline-danger px-2 py-1" title="Hapus" onclick="ratDelete(${r.rate_id})"><i class="bi bi-trash"></i></button>
       </td>
     </tr>`).join('');
   }
@@ -370,26 +364,6 @@ function renderRatingTable() {
   }
 }
 
-async function ratUpdateStatus(id, status) {
-  const labelMap = {approved:'Disetujui',rejected:'Ditolak',pending:'Pending'};
-  const { isConfirmed } = await Swal.fire({
-    title:`Ubah ke "${labelMap[status]}"?`, icon:'question',
-    showCancelButton:true, confirmButtonText:'Ya', cancelButtonText:'Batal',
-    confirmButtonColor: status==='approved'?'#10b981':status==='rejected'?'#ef4444':'#6b7280',
-  });
-  if (!isConfirmed) return;
-  try {
-    const res = await fetch('/api/rating/status', { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({rate_id:id,rate_status:status}) });
-    const json = await res.json();
-    if (json.status === 'success') {
-      const idx = ratingAll.findIndex(r => r.rate_id == id);
-      if (idx>-1) ratingAll[idx].rate_status = status;
-      const cell = document.getElementById(`rat-status-${id}`);
-      if (cell) cell.innerHTML = statusBadge(status);
-      Swal.fire({ icon:'success', title:'Berhasil!', text:json.message, timer:1500, showConfirmButton:false });
-    } else Swal.fire({ icon:'error', title:'Gagal', text:json.message });
-  } catch(e) { Swal.fire({ icon:'error', title:'Error', text:'Kesalahan jaringan.' }); }
-}
 
 async function ratDelete(id) {
   const { isConfirmed } = await Swal.fire({
@@ -474,14 +448,6 @@ function valueBadge(val) {
   return m[String(val)] ?? `<span class="badge bg-secondary">${val}</span>`;
 }
 
-function statusBadge(s) {
-  const m = {
-    approved: '<span class="badge bg-success-subtle text-success rounded-pill">Disetujui</span>',
-    rejected: '<span class="badge bg-danger-subtle text-danger rounded-pill">Ditolak</span>',
-    pending:  '<span class="badge bg-warning-subtle text-warning rounded-pill">Menunggu</span>',
-  };
-  return m[s] ?? '<span class="badge bg-warning-subtle text-warning rounded-pill">Menunggu</span>';
-}
 
 function jobBadge(job) {
   const m = {

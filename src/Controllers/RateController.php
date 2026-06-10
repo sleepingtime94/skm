@@ -150,25 +150,7 @@ class RateController
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function updateRatingStatus()
-    {
-        $data = json_decode(file_get_contents('php://input'), true);
-        if (!isset($data['rate_id']) || !isset($data['rate_status'])) {
-            echo json_encode(['status' => 'error', 'message' => 'Data tidak lengkap.']);
-            return;
-        }
-        $allowed = ['pending', 'approved', 'rejected'];
-        if (!in_array($data['rate_status'], $allowed)) {
-            echo json_encode(['status' => 'error', 'message' => 'Status tidak valid.']);
-            return;
-        }
-        $affected = $this->db->update('rating', ['rate_status' => $data['rate_status']], ['rate_id' => $data['rate_id']]);
-        if ($affected > 0) {
-            echo json_encode(['status' => 'success', 'message' => 'Status berhasil diperbarui.']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Data tidak ditemukan.']);
-        }
-    }
+
 
     public function deleteRating()
     {

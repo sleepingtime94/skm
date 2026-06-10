@@ -1,9 +1,5 @@
 {% extends 'layout.twig' %}
 {% block content %}
-<link rel="stylesheet" href="/assets/css/dashboard.css">
-{# Meta CSRF untuk diakses oleh dashboard.js #}
-<meta name="csrf-token" content="{{ session.csrf_token }}">
-
 <!-- Mobile Overlay -->
 <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
@@ -242,12 +238,11 @@
                                         <th>Nama Pegawai</th>
                                         <th>Jabatan</th>
                                         <th class="text-center">Nilai</th>
-                                        <th class="text-center">Status</th>
                                         <th class="text-center pe-3">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="rat-tbody">
-                                    <tr><td colspan="6" class="text-center py-4 text-muted">Memuat…</td></tr>
+                                    <tr><td colspan="5" class="text-center py-4 text-muted">Memuat…</td></tr>
                                 </tbody>
                             </table>
                         </div>
