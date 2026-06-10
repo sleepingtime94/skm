@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     pegawai.forEach(function (item) {
       if (item.employee_image != null) {
-        var image = `/assets/img/${item.employee_image}`;
+        var image = `/storage/uploads/${item.employee_image}`;
       } else {
         var image = "/assets/img/EMPLOYEE.jpg";
       }

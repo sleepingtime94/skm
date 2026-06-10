@@ -17,8 +17,27 @@ $router->post('/login', 'AuthController@login');
 
 // Logout via POST untuk mencegah CSRF logout attack
 $router->post('/logout', 'AuthController@logout');
-
-
+// Route untuk menyajikan berkas gambar pegawai dari folder root /storage/uploads
+$router->get('/storage/uploads/(.*)', function ($filename) {
+    $path = dirname(__DIR__, 2) . '/storage/uploads/' . $filename;
+    if (file_exists($path) && is_file($path)) {
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $mimes = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp'
+        ];
+        $contentType = $mimes[$ext] ?? 'application/octet-stream';
+        header('Content-Type: ' . $contentType);
+        readfile($path);
+        exit;
+    }
+    header("HTTP/1.0 404 Not Found");
+    echo "File not found.";
+    exit;
+});
 
 $router->get('/survei-kepuasan-masyarakat', 'ViewController@questMain');
 $router->get('/survei-pembangunan-zi', 'ViewController@questSecond');
@@ -62,11 +81,11 @@ $router->before('POST',   '/api/employee/create',          function () {
 });
 $router->post('/api/employee/create',                      'EmployeeController@apiCreate');
 
-$router->before('PATCH',  '/api/employee/update/(\d+)',    'AuthController@authenticate');
-$router->before('PATCH',  '/api/employee/update/(\d+)',    function () {
+$router->before('POST',  '/api/employee/update/(\d+)',    'AuthController@authenticate');
+$router->before('POST',  '/api/employee/update/(\d+)',    function () {
     \App\Utility\Security::verifyCsrf();
 });
-$router->patch('/api/employee/update/(\d+)',               'EmployeeController@apiUpdate');
+$router->post('/api/employee/update/(\d+)',               'EmployeeController@apiUpdate');
 
 $router->before('DELETE', '/api/employee/delete/(\d+)',    'AuthController@authenticate');
 $router->before('DELETE', '/api/employee/delete/(\d+)',    function () {

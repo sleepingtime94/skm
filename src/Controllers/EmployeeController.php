@@ -45,7 +45,7 @@ class EmployeeController
 
     public function apiCreate()
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = $_POST;
         $required = ['employee_name'];
         foreach ($required as $field) {
             if (empty($data[$field])) {
@@ -54,15 +54,38 @@ class EmployeeController
             }
         }
 
+        $imageName = null;
+        if (isset($_FILES['employee_image']) && $_FILES['employee_image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = dirname(__DIR__, 2) . '/storage/uploads';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $fileTmpPath = $_FILES['employee_image']['tmp_name'];
+            $originalName = $_FILES['employee_image']['name'];
+            $fileExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            if (in_array($fileExtension, $allowedExtensions)) {
+                $newFileName = md5(time() . $originalName) . '.' . $fileExtension;
+                $destPath = $uploadDir . '/' . $newFileName;
+                if (move_uploaded_file($fileTmpPath, $destPath)) {
+                    $imageName = $newFileName;
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Format file tidak didukung.']);
+                return;
+            }
+        }
+
         $params = [
             'employee_name'     => $data['employee_name'],
-            'employee_ttl'      => $data['employee_ttl'] ?? null,
-            'employee_position' => $data['employee_position'] ?? null,
-            'employee_nip'      => $data['employee_nip'] ?? null,
-            'employee_nik'      => $data['employee_nik'] ?? null,
-            'employee_job'      => $data['employee_job'] ?? null,
-            'employee_about'    => $data['employee_about'] ?? null,
-            'employee_image'    => $data['employee_image'] ?? null,
+            'employee_ttl'      => !empty($data['employee_ttl']) ? $data['employee_ttl'] : null,
+            'employee_position' => !empty($data['employee_position']) ? $data['employee_position'] : null,
+            'employee_nip'      => !empty($data['employee_nip']) ? $data['employee_nip'] : null,
+            'employee_nik'      => !empty($data['employee_nik']) ? $data['employee_nik'] : null,
+            'employee_job'      => !empty($data['employee_job']) ? $data['employee_job'] : null,
+            'employee_about'    => !empty($data['employee_about']) ? $data['employee_about'] : null,
+            'employee_image'    => $imageName,
         ];
 
         $this->db->create('employee', $params);
@@ -71,18 +94,47 @@ class EmployeeController
 
     public function apiUpdate($employee_id)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
-        if (empty($data)) {
+        $data = $_POST;
+        if (empty($data) && empty($_FILES)) {
             echo json_encode(['status' => 'error', 'message' => 'Tidak ada data untuk diperbarui.']);
             return;
         }
 
         $allowed = ['employee_name','employee_ttl','employee_position','employee_nip',
-                     'employee_nik','employee_job','employee_about','employee_image'];
+                     'employee_nik','employee_job','employee_about'];
         $params = [];
         foreach ($allowed as $field) {
             if (array_key_exists($field, $data)) {
-                $params[$field] = $data[$field];
+                $params[$field] = !empty($data[$field]) ? $data[$field] : null;
+            }
+        }
+
+        if (isset($_FILES['employee_image']) && $_FILES['employee_image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = dirname(__DIR__, 2) . '/storage/uploads';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $fileTmpPath = $_FILES['employee_image']['tmp_name'];
+            $originalName = $_FILES['employee_image']['name'];
+            $fileExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            if (in_array($fileExtension, $allowedExtensions)) {
+                $newFileName = md5(time() . $originalName) . '.' . $fileExtension;
+                $destPath = $uploadDir . '/' . $newFileName;
+                if (move_uploaded_file($fileTmpPath, $destPath)) {
+                    $oldEmp = $this->db->select('employee', ['employee_id' => $employee_id]);
+                    if (!empty($oldEmp) && !empty($oldEmp[0]['employee_image'])) {
+                        $oldImagePath = $uploadDir . '/' . $oldEmp[0]['employee_image'];
+                        if (file_exists($oldImagePath)) {
+                            @unlink($oldImagePath);
+                        }
+                    }
+                    $params['employee_image'] = $newFileName;
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Format file tidak didukung.']);
+                return;
             }
         }
 
@@ -92,7 +144,7 @@ class EmployeeController
         }
 
         $affected = $this->db->update('employee', $params, ['employee_id' => $employee_id]);
-        if ($affected > 0) {
+        if ($affected > 0 || isset($params['employee_image'])) {
             echo json_encode(['status' => 'success', 'message' => 'Data pegawai berhasil diperbarui.']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Data tidak ditemukan atau tidak berubah.']);
@@ -101,6 +153,15 @@ class EmployeeController
 
     public function apiDelete($employee_id)
     {
+        $emp = $this->db->select('employee', ['employee_id' => $employee_id]);
+        if (!empty($emp) && !empty($emp[0]['employee_image'])) {
+            $uploadDir = dirname(__DIR__, 2) . '/storage/uploads';
+            $imagePath = $uploadDir . '/' . $emp[0]['employee_image'];
+            if (file_exists($imagePath)) {
+                @unlink($imagePath);
+            }
+        }
+
         $affected = $this->db->delete('employee', ['employee_id' => $employee_id]);
         if ($affected > 0) {
             echo json_encode(['status' => 'success', 'message' => 'Data pegawai berhasil dihapus.']);

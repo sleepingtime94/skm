@@ -41,6 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load initial page
   switchPage("overview");
+
+  // File input preview listener
+  const fileInput = document.getElementById("emp-f-image");
+  if (fileInput) {
+    fileInput.addEventListener("change", function () {
+      const prevContainer = document.getElementById("emp-image-preview-container");
+      const prevImg = document.getElementById("emp-image-preview");
+      if (this.files && this.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          prevImg.src = e.target.result;
+          prevContainer.classList.remove("d-none");
+        };
+        reader.readAsDataURL(this.files[0]);
+      }
+    });
+  }
 });
 
 /* ── Page Router ─────────────────────────────────────────── */
@@ -246,6 +263,11 @@ function showAddEmployee() {
   document.getElementById("emp-modal-title").textContent = "Tambah Pegawai";
   document.getElementById("emp-form").reset();
   document.getElementById("emp-form-id").value = "";
+  document.getElementById("emp-f-image").value = "";
+  const prevContainer = document.getElementById("emp-image-preview-container");
+  const prevImg = document.getElementById("emp-image-preview");
+  if (prevContainer) prevContainer.classList.add("d-none");
+  if (prevImg) prevImg.src = "";
   new bootstrap.Modal(document.getElementById("empModal")).show();
 }
 
@@ -261,33 +283,48 @@ function editEmployee(id) {
   document.getElementById("emp-f-job").value = emp.employee_job ?? "";
   document.getElementById("emp-f-about").value = emp.employee_about ?? "";
   document.getElementById("emp-f-ttl").value = emp.employee_ttl ?? "";
+  
+  document.getElementById("emp-f-image").value = "";
+  const prevContainer = document.getElementById("emp-image-preview-container");
+  const prevImg = document.getElementById("emp-image-preview");
+  if (emp.employee_image) {
+    prevImg.src = `/storage/uploads/${emp.employee_image}`;
+    prevContainer.classList.remove("d-none");
+  } else {
+    prevImg.src = "";
+    prevContainer.classList.add("d-none");
+  }
+  
   new bootstrap.Modal(document.getElementById("empModal")).show();
 }
 
 async function saveEmployee() {
   const id = document.getElementById("emp-form-id").value;
-  const data = {
-    employee_name: document.getElementById("emp-f-name").value,
-    employee_nip: document.getElementById("emp-f-nip").value || null,
-    employee_nik: document.getElementById("emp-f-nik").value || null,
-    employee_position: document.getElementById("emp-f-position").value || null,
-    employee_job: document.getElementById("emp-f-job").value || null,
-    employee_about: document.getElementById("emp-f-about").value || null,
-    employee_ttl: document.getElementById("emp-f-ttl").value || null,
-  };
-
-  if (!data.employee_name) {
+  const name = document.getElementById("emp-f-name").value;
+  if (!name) {
     Swal.fire({ icon: "warning", title: "Nama pegawai wajib diisi." });
     return;
   }
 
+  const formData = new FormData();
+  formData.append("employee_name", name);
+  formData.append("employee_nip", document.getElementById("emp-f-nip").value);
+  formData.append("employee_nik", document.getElementById("emp-f-nik").value);
+  formData.append("employee_position", document.getElementById("emp-f-position").value);
+  formData.append("employee_job", document.getElementById("emp-f-job").value);
+  formData.append("employee_about", document.getElementById("emp-f-about").value);
+  formData.append("employee_ttl", document.getElementById("emp-f-ttl").value);
+
+  const fileInput = document.getElementById("emp-f-image");
+  if (fileInput.files.length > 0) {
+    formData.append("employee_image", fileInput.files[0]);
+  }
+
   try {
     const url = id ? `/api/employee/update/${id}` : "/api/employee/create";
-    const method = id ? "PATCH" : "POST";
     const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      method: "POST",
+      body: formData,
     });
     const json = await res.json();
     bootstrap.Modal.getInstance(document.getElementById("empModal"))?.hide();
