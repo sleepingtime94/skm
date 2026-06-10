@@ -45,9 +45,9 @@ $router->before('GET', '/dashboard', 'AuthController@authenticate');
 $router->get('/dashboard', 'ViewController@dashboard');
 
 // Route /pegawai dilindungi autentikasi (berisi NIP/NIK/data PII)
-$router->before('GET', '/penilaian-pegawai', 'AuthController@authenticate');
+// $router->before('GET', '/penilaian-pegawai', 'AuthController@authenticate');
 $router->get('/penilaian-pegawai', 'ViewController@employeeMain');
-$router->before('GET', '/penilaian-pegawai/(.*)', 'AuthController@authenticate');
+// $router->before('GET', '/penilaian-pegawai/(.*)', 'AuthController@authenticate');
 $router->get('/penilaian-pegawai/{employee_id}', 'ViewController@employeeDetail');
 
 $router->before('GET', '/pegawai', 'AuthController@authenticate');
